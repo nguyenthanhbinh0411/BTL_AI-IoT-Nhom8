@@ -97,11 +97,3 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 
 - Sử dụng giao diện web để xem thành tích và lịch sử của người dùng.
 - Hoặc sử dụng các API để lấy dữ liệu dưới dạng JSON.
-
-## Đóng Góp
-
-Chúng tôi hoan nghênh các đóng góp! Vui lòng mở một issue hoặc gửi pull request cho bất kỳ cải tiến hoặc sửa lỗi nào.
-
-## Giấy Phép
-
-Dự án này được cấp phép theo giấy phép MIT. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
