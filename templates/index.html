@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Push-Up Recognition</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 80%;
+
+        no-repeat center center/cover;
+      }
+      .tab {
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+        width: 100%;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-around;
+      }
+      .tab button {
+        background-color: #f1f1f1;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 20px;
+        transition: 0.3s;
+        font-size: 16px;
+        position: relative;
+        border-radius: 10px 10px 0 0;
+        margin: 0 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .tab button:hover {
+        background-color: #ddd;
+        color: #007bff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+      .tab button.active {
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+      .tabcontent {
+        display: none;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        width: 100%;
+      }
+      .tabcontent.active {
+        display: block;
+      }
+      .camera-info-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+      .camera {
+        width: 60%;
+        height: auto;
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .camera img {
+        width: 100%;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 35%;
+        font-size: 18px;
+      }
+      .info p {
+        margin: 5px 0;
+      }
+      .info p i {
+        margin-right: 8px;
+      }
+      .buttons {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        width: 100%;
+      }
+      .buttons button {
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        transition: background-color 0.3s, transform 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .buttons button i {
+        margin-right: 8px;
+      }
+      .buttons button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+      .buttons button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+      .modal-content {
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 70%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+      .rank-1 {
+        background: linear-gradient(
+          145deg,
+          #fffacd,
+          #ffd700
+        ); /* Light Gold Gradient */
+      }
+      .rank-2 {
+        background: linear-gradient(
+          145deg,
+          #e0e0e0,
+          #c0c0c0
+        ); /* Light Silver Gradient */
+      }
+      .rank-3 {
+        background: linear-gradient(
+          145deg,
+          #f4a460,
+          #cd7f32
+        ); /* Light Bronze Gradient */
+      }
+      .fas.fa-trophy.rank-1 {
+        color: gold;
+        background: none;
+      }
+      .fas.fa-trophy.rank-2 {
+        color: silver;
+        background: none;
+      }
+      .fas.fa-trophy.rank-3 {
+        color: brown;
+        background: none;
+      }
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        color: #007bff;
+      }
+      .loading-spinner {
+        border: 8px solid #f3f3f3; /* Reduced border size */
+        border-top: 8px solid #007bff; /* Reduced border size */
+        border-radius: 50%;
+        width: 60px; /* Reduced width */
+        height: 60px; /* Reduced height */
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .fail-result {
+        background-color: #ffcccc; /* Light red background for fail results */
+      }
+    </style>
+    <script>
+      function updateStatus() {
+        fetch("/status")
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("user").innerHTML =
+              "<i class='fas fa-user'></i> Người tập: " + data.user;
+            document.getElementById("msv").innerHTML =
+              "<i class='fas fa-id-badge'></i> MSV: " + data.msv;
+            document.getElementById("class").innerHTML =
+              "<i class='fas fa-school'></i> Lớp: " + data.class;
+            document.getElementById("status").innerHTML =
+              "<i class='fas fa-info-circle'></i> Trạng thái: " + data.status;
+            document.getElementById("pushup_count").innerHTML =
+              "<i class='fas fa-dumbbell'></i> Số lần chống đẩy: " +
+              data.pushup_count;
+            document.getElementById("result").innerHTML =
+              "<i class='fas fa-clipboard-check'></i> Kết quả: " + data.result;
+
+            // Enable or disable buttons based on user confirmation
+            const isUserConfirmed =
+              data.user !== "Unknown" && data.user === data.confirmed_user;
+            document.getElementById("saveButton").disabled = !isUserConfirmed;
+            document.getElementById("historyButton").disabled =
+              !isUserConfirmed;
+          });
+      }
+      setInterval(updateStatus, 1000);
+
+      function saveData() {
+        fetch("/save", { method: "POST" })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            if (data.message === "Lưu kết quả thành công!") {
+              updateHistory();
+            }
+          });
+      }
+
+      function confirmUser() {
+        fetch("/confirm", { method: "POST" })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            document.getElementById("user").innerText =
+              "Thí sinh: " + data.message.split(": ")[1].split(" (")[0];
+          });
+      }
+
+      function changeUser() {
+        fetch("/change_user", { method: "POST" })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            document.getElementById("user").innerText =
+              "Người tập: Chưa xác định";
+          });
+      }
+
+      function updateHistory() {
+        fetch("/history")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Dữ liệu lịch sử sau khi cập nhật:", data);
+            let historyContent = `<h2>Lịch sử gần nhất</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Người tập</th>
+                    <th>MSV</th>
+                    <th>Lớp</th>
+                    <th>Ngày</th>
+                    <th>Số lần</th>
+                    <th>Kết quả</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+            data.slice(-5).forEach((entry) => {
+              const rowClass = entry.result === "Fail" ? "fail-result" : "";
+              historyContent += `
+                <tr class="${rowClass}">
+                  <td>${entry.user_name}</td>
+                  <td>${entry.msv}</td>
+                  <td>${entry.class}</td>
+                  <td>${entry.time}</td>
+                  <td>${entry.pushup_count}</td>
+                  <td>${entry.result}</td>
+                </tr>`;
+            });
+            historyContent += `</tbody></table>`;
+            document.getElementById("history-content").innerHTML =
+              historyContent;
+          });
+      }
+
+      function showHistory() {
+        fetch("/history", { method: "POST" })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+            } else {
+              let historyContent = `<h2>Lịch sử gần nhất</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Người tập</th>
+                      <th>MSV</th>
+                      <th>Lớp</th>
+                      <th>Ngày</th>
+                      <th>Số lần</th>
+                      <th>Kết quả</th>
+                    </tr>
+                  </thead>
+                  <tbody>`;
+              data.slice(-5).forEach((entry) => {
+                const rowClass = entry.result === "Fail" ? "fail-result" : "";
+                historyContent += `
+                  <tr class="${rowClass}">
+                    <td>${entry.user_name}</td>
+                    <td>${entry.msv}</td>
+                    <td>${entry.class}</td>
+                    <td>${entry.time}</td>
+                    <td>${entry.pushup_count}</td>
+                    <td>${entry.result}</td>
+                  </tr>`;
+              });
+              historyContent += `</tbody></table>`;
+              document.getElementById("history-content").innerHTML =
+                historyContent;
+              document.getElementById("history-modal").style.display = "block";
+            }
+          });
+      }
+
+      function showAchievements() {
+        fetch("/achievements")
+          .then((response) => response.json())
+          .then((data) => {
+            let achievementsContent = `<h2>Bảng xếp hạng</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Xếp Hạng</th>
+                    <th>Tên</th>
+                    <th>MSV</th>
+                    <th>Lớp</th>
+                    <th>Số lần chống đẩy</th>
+                    <th>Kết quả</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+            data.forEach((entry, index) => {
+              let rank = index + 1;
+              let rankClass = "";
+              let rankIcon = "";
+              if (rank === 1) {
+                rankClass = "rank-1";
+                rankIcon =
+                  "<i class='fas fa-trophy rank-1' style='font-size: 24px;'></i>";
+              } else if (rank === 2) {
+                rankClass = "rank-2";
+                rankIcon =
+                  "<i class='fas fa-trophy rank-2' style='font-size: 20px;'></i>";
+              } else if (rank === 3) {
+                rankClass = "rank-3";
+                rankIcon =
+                  "<i class='fas fa-trophy rank-3' style='font-size: 16px;'></i>";
+              } else {
+                rankIcon = rank;
+              }
+              const rowClass = entry.result === "Fail" ? "fail-result" : "";
+              achievementsContent += `
+                <tr class="${rankClass} ${rowClass}">
+                  <td>${rankIcon}</td>
+                  <td>${entry.name}</td>
+                  <td>${entry.msv}</td>
+                  <td>${entry.class}</td>
+                  <td>${entry.max_pushup_count}</td>
+                  <td>${entry.result}</td>
+                </tr>`;
+            });
+            achievementsContent += `</tbody></table>`;
+            document.getElementById("achievements-content").innerHTML =
+              achievementsContent;
+          });
+      }
+
+      function showStudents() {
+        fetch("/students")
+          .then((response) => response.json())
+          .then((data) => {
+            let studentsContent = `<h2>Danh sách học sinh</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>MSV</th>
+                    <th>Lớp</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+            data.forEach((entry) => {
+              studentsContent += `
+                <tr>
+                  <td>${entry.id}</td>
+                  <td>${entry.name}</td>
+                  <td>${entry.msv}</td>
+                  <td>${entry.class}</td>
+                </tr>`;
+            });
+            studentsContent += `</tbody></table>`;
+            document.getElementById("students-content").innerHTML =
+              studentsContent;
+          });
+      }
+
+      function closeModal() {
+        document.getElementById("history-modal").style.display = "none";
+        document.getElementById("achievements-modal").style.display = "none";
+        document.getElementById("students-modal").style.display = "none";
+      }
+
+      function collectFaceData() {
+        const name = prompt("Nhập tên người tập:");
+        const msv = prompt("Nhập MSV:");
+        const className = prompt("Nhập tên lớp:");
+        if (name && msv && className) {
+          fetch("/collect_face_data", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `name=${name}&msv=${msv}&class_name=${className}`,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(data.message);
+              location.reload(); // Reload the page to re-initialize the camera
+            });
+        } else {
+          alert("Tên, MSV và lớp không được để trống");
+        }
+      }
+
+      function trainModel() {
+        const progressElement = document.getElementById("train-progress");
+        const loadingOverlay = document.getElementById("loading-overlay");
+        progressElement.style.display = "block";
+        loadingOverlay.style.display = "flex";
+        fetch("/train_model", { method: "POST" })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message || "Huấn luyện mô hình hoàn tất!");
+            location.reload(); // Reload the page to reinitialize the camera
+          })
+          .catch((error) => {
+            alert("Lỗi khi huấn luyện mô hình: " + error.message);
+          })
+          .finally(() => {
+            loadingOverlay.style.display = "none";
+          });
+      }
+
+      function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+
+        // Load data when switching tabs
+        if (tabName === "achievements-tab") {
+          showAchievements();
+        } else if (tabName === "students-tab") {
+          showStudents();
+        }
+      }
+
+      function updateCountdown() {
+        fetch("/countdown")
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("countdown-timer").innerText =
+              data.countdown;
+          });
+      }
+
+      setInterval(updateCountdown, 1000); // Update countdown every second
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'camera-tab')">
+          <i class="fas fa-video"></i> Push-Up Recognition
+        </button>
+        <button class="tablinks" onclick="openTab(event, 'achievements-tab')">
+          <i class="fas fa-trophy"></i> Xem Thành Tích
+        </button>
+        <button class="tablinks" onclick="openTab(event, 'students-tab')">
+          <i class="fas fa-users"></i> Thông Tin Học Sinh
+        </button>
+      </div>
+      <div id="camera-tab" class="tabcontent active">
+        <div class="camera-info-container">
+          <div class="camera">
+            <img src="{{ url_for('video') }}" />
+          </div>
+          <div class="info">
+            <h2>Push-Up Recognition</h2>
+            <p id="user">
+              <i class="fas fa-user"></i> Người tập: Chưa xác định
+            </p>
+            <p id="msv"><i class="fas fa-id-badge"></i> MSV: N/A</p>
+            <p id="class"><i class="fas fa-school"></i> Lớp: N/A</p>
+            <p id="status">
+              <i class="fas fa-info-circle"></i> Trạng thái: Neutral
+            </p>
+            <p id="pushup_count">
+              <i class="fas fa-dumbbell"></i> Số lần chống đẩy: 0
+            </p>
+            <p id="countdown">
+              <i class="fas fa-stopwatch"></i>
+              <span id="countdown-timer">30</span>
+            </p>
+            <p id="result">
+              <i class="fas fa-clipboard-check"></i> Kết quả: Fail
+            </p>
+            <div id="train-progress" style="display: none"></div>
+            <div class="buttons">
+              <button id="saveButton" onclick="saveData()" disabled>
+                <i class="fas fa-save"></i> Lưu Kết Quả
+              </button>
+              <button onclick="confirmUser()">
+                <i class="fas fa-user-check"></i> Xác Nhận Thí Sinh
+              </button>
+              <button onclick="changeUser()">
+                <i class="fas fa-user-times"></i> Đổi Người Thí Sinh
+              </button>
+              <button id="historyButton" onclick="showHistory()" disabled>
+                <i class="fas fa-history"></i> Xem Lịch Sử
+              </button>
+              <button onclick="collectFaceData()">
+                <i class="fas fa-user-plus"></i> Thêm Thí Sinh
+              </button>
+              <button onclick="trainModel()">
+                <i class="fas fa-brain"></i> Huấn Luyện Mô Hình
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="achievements-tab" class="tabcontent">
+        <div id="achievements-content"></div>
+      </div>
+      <div id="students-tab" class="tabcontent">
+        <div id="students-content"></div>
+      </div>
+    </div>
+    <!-- Modify this line to include an icon and span for the timer -->
+    <!-- Add this line to display countdown -->
+    <div id="history-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="history-content"></div>
+      </div>
+    </div>
+    <div id="achievements-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="achievements-content"></div>
+      </div>
+    </div>
+    <div id="students-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="students-content"></div>
+      </div>
+    </div>
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>Đang huấn luyện mô hình...</p>
+    </div>
+  </body>
+</html>
