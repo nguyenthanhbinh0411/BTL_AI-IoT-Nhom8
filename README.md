@@ -1,97 +1,107 @@
-# BTL AI & IoT - Nhóm 8
+# Hệ Thống Nhận Diện Chống Đẩy
 
-## Giới thiệu
-Dự án này bao gồm các chức năng nhận diện khuôn mặt và đếm số lần chống đẩy sử dụng AI và IoT. Dự án được xây dựng bằng Python và sử dụng các thư viện như OpenCV, Mediapipe, TensorFlow, Flask, và MySQL.
+Dự án này là một hệ thống nhận diện chống đẩy sử dụng thị giác máy tính và học máy để đếm số lần chống đẩy và nhận diện người dùng. Hệ thống bao gồm giao diện web để giám sát thời gian thực và cơ sở dữ liệu để lưu trữ thông tin người dùng và nhật ký chống đẩy.
 
-## Cài đặt
+## Mục Lục
+- [Cài Đặt](#cài-đặt)
+- [Thiết Lập Cơ Sở Dữ Liệu](#thiết-lập-cơ-sở-dữ-liệu)
+- [Chạy Ứng Dụng](#chạy-ứng-dụng)
+- [Sử Dụng](#sử-dụng)
+- [Các API](#các-api)
+- [Huấn Luyện Mô Hình](#huấn-luyện-mô-hình)
+- [Thu Thập Dữ Liệu Khuôn Mặt](#thu-thập-dữ-liệu-khuôn-mặt)
+- [Xem Thành Tích và Lịch Sử](#xem-thành-tích-và-lịch-sử)
+
+## Cài Đặt
+
 1. **Clone repository:**
-    ```bash
-    git clone <repository-url>
-    cd BTL_AI_IOT/BTL_AI&IoT-Nhom8
+    ```sh
+    git clone https://github.com/yourusername/PushUpRecognition.git
+    cd PushUpRecognition
     ```
 
-2. **Cài đặt các thư viện cần thiết:**
-    ```bash
+2. **Cài đặt các gói Python cần thiết:**
+    ```sh
     pip install -r requirements.txt
     ```
 
-3. **Cấu hình MySQL:**
-    - Tạo database `pushups_db`.
-    - Chạy các script SQL để tạo các bảng cần thiết.
+3. **Cài đặt MySQL:**
+    - Tải và cài đặt MySQL từ [MySQL Downloads](https://dev.mysql.com/downloads/installer/).
+    - Tạo một người dùng và cơ sở dữ liệu MySQL cho dự án.
 
-4. **Cấu hình TensorFlow để sử dụng GPU (nếu có):**
-    ```python
-    import tensorflow as tf
-    physical_devices = tf.config.list_physical_devices('GPU')
-    if physical_devices:
-        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+## Thiết Lập Cơ Sở Dữ Liệu
+
+1. **Tạo và thiết lập cơ sở dữ liệu:**
+    - Mở file `database_setup.sql` và chỉnh sửa tên người dùng và mật khẩu MySQL nếu cần.
+    - Chạy script SQL để tạo cơ sở dữ liệu và các bảng:
+    ```sh
+    mysql -u root -p < database_setup.sql
     ```
 
-## Sử dụng
-### 1. Thu thập dữ liệu khuôn mặt
-Chạy script `collect_face_data.py` để thu thập dữ liệu khuôn mặt:
-```bash
-python collect_face_data.py
-```
-Nhập tên người cần thu thập dữ liệu khi được yêu cầu.
+## Chạy Ứng Dụng
 
-### 2. Huấn luyện mô hình nhận diện khuôn mặt
-Chạy script `train_model.py` để huấn luyện mô hình nhận diện khuôn mặt:
-```bash
-python train_model.py
-```
+1. **Khởi động ứng dụng Flask:**
+    ```sh
+    python video.py
+    ```
 
-### 3. Xử lý video chống đẩy
-Chạy script `frames.py` để xử lý video và trích xuất các frame:
-```bash
-python frames.py
-```
+2. **Truy cập giao diện web:**
+    - Mở trình duyệt web và truy cập `http://localhost:5000`.
 
-### 4. Huấn luyện mô hình nhận diện chống đẩy
-Chạy script `train.py` để huấn luyện mô hình nhận diện chống đẩy:
-```bash
-python train.py
-```
+## Sử Dụng
 
-### 5. Chạy ứng dụng Flask
-Chạy script `video.py` để khởi động ứng dụng Flask:
-```bash
-python video.py
-```
-Mở trình duyệt và truy cập `http://localhost:5000` để sử dụng ứng dụng.
+### Giám Sát Thời Gian Thực
 
-## API
-### 1. Thu thập dữ liệu khuôn mặt
-- **Endpoint:** `/collect_face_data`
-- **Method:** `POST`
-- **Parameters:** `name`, `msv`, `class_name`
+- Trang chính hiển thị luồng video thời gian thực từ camera.
+- Hệ thống sẽ nhận diện người dùng và đếm số lần chống đẩy.
+- Người dùng có thể xác nhận danh tính, lưu số lần chống đẩy và xem lịch sử của mình.
 
-### 2. Huấn luyện mô hình nhận diện khuôn mặt
-- **Endpoint:** `/train_model`
-- **Method:** `POST`
+### Các API
 
-### 3. Xác nhận người tập
-- **Endpoint:** `/confirm`
-- **Method:** `POST`
+- **`/status`**: Lấy trạng thái hiện tại của hệ thống nhận diện chống đẩy.
+- **`/save`**: Lưu số lần chống đẩy hiện tại vào cơ sở dữ liệu.
+- **`/confirm`**: Xác nhận người dùng hiện tại.
+- **`/change_user`**: Đổi người dùng hiện tại.
+- **`/collect_face_data`**: Thu thập dữ liệu khuôn mặt cho người dùng mới.
+- **`/train_model`**: Huấn luyện mô hình nhận diện khuôn mặt.
+- **`/history`**: Lấy lịch sử chống đẩy của người dùng đã xác nhận.
+- **`/achievements`**: Lấy thành tích của tất cả người dùng.
+- **`/students`**: Lấy danh sách tất cả học sinh.
 
-### 4. Lưu kết quả chống đẩy
-- **Endpoint:** `/save`
-- **Method:** `POST`
+### Huấn Luyện Mô Hình
 
-### 5. Hiển thị lịch sử người tập
-- **Endpoint:** `/history`
-- **Method:** `POST`
+1. **Huấn luyện mô hình nhận diện chống đẩy:**
+    - Mô hình được huấn luyện bằng script `Train_Pushup/train.py`.
+    - Chỉnh sửa script nếu cần và chạy nó:
+    ```sh
+    python Train_Pushup/train.py
+    ```
 
-### 6. Hiển thị thành tích cao nhất
-- **Endpoint:** `/achievements`
-- **Method:** `GET`
+2. **Huấn luyện mô hình nhận diện khuôn mặt:**
+    - Mô hình được huấn luyện bằng script `Train_FaceRecognition/train_model.py`.
+    - Chỉnh sửa script nếu cần và chạy nó:
+    ```sh
+    python Train_FaceRecognition/train_model.py
+    ```
 
-### 7. Hiển thị danh sách học sinh
-- **Endpoint:** `/students`
-- **Method:** `GET`
+### Thu Thập Dữ Liệu Khuôn Mặt
 
-## Đóng góp
-Nếu bạn muốn đóng góp cho dự án, vui lòng tạo pull request hoặc mở issue mới.
+1. **Thu thập dữ liệu khuôn mặt cho người dùng mới:**
+    - Sử dụng giao diện web để thu thập dữ liệu khuôn mặt.
+    - Hoặc chạy script `Train_FaceRecognition/collect_face_data.py`:
+    ```sh
+    python Train_FaceRecognition/collect_face_data.py
+    ```
 
-## Liên hệ
-Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email: [email@example.com]
+### Xem Thành Tích và Lịch Sử
+
+- Sử dụng giao diện web để xem thành tích và lịch sử của người dùng.
+- Hoặc sử dụng các API để lấy dữ liệu dưới dạng JSON.
+
+## Đóng Góp
+
+Chúng tôi hoan nghênh các đóng góp! Vui lòng mở một issue hoặc gửi pull request cho bất kỳ cải tiến hoặc sửa lỗi nào.
+
+## Giấy Phép
+
+Dự án này được cấp phép theo giấy phép MIT. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
