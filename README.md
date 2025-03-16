@@ -4,7 +4,7 @@
 <div align="center">
 
  <img src="https://github.com/user-attachments/assets/a7ad8c17-5216-4f9c-9bc5-715bfdc7283a"  width="200">
- <img src="https://github.com/user-attachments/assets/d057713b-9362-4a1e-9423-89691f3ab44d" width="200">
+ <img src="https://github.com/user-attachments/assets/4ae892ff-d1c4-479f-8376-697cc9364a5d" width="200">
 
 
 [![Made by AIoTLab](https://img.shields.io/badge/Made%20by%20AIoTLab-blue?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
