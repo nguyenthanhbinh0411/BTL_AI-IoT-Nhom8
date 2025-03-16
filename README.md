@@ -3,6 +3,7 @@
 Dự án này là một hệ thống nhận diện chống đẩy sử dụng thị giác máy tính và học máy để đếm số lần chống đẩy và nhận diện người dùng. Hệ thống bao gồm giao diện web để giám sát thời gian thực và cơ sở dữ liệu để lưu trữ thông tin người dùng và nhật ký chống đẩy.
 
 ## Mục Lục
+
 - [Cài Đặt](#cài-đặt)
 - [Thiết Lập Cơ Sở Dữ Liệu](#thiết-lập-cơ-sở-dữ-liệu)
 - [Chạy Ứng Dụng](#chạy-ứng-dụng)
@@ -11,42 +12,48 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 - [Huấn Luyện Mô Hình](#huấn-luyện-mô-hình)
 - [Thu Thập Dữ Liệu Khuôn Mặt](#thu-thập-dữ-liệu-khuôn-mặt)
 - [Xem Thành Tích và Lịch Sử](#xem-thành-tích-và-lịch-sử)
+- [Giới Thiệu Các Chức Năng](#giới-thiệu-các-chức-năng)
+- [Sơ Đồ Hệ Thống](#sơ-đồ-hệ-thống)
+- [Poster](#poster)
 
 ## Cài Đặt
 
 1. **Clone repository:**
-    ```sh
-    git clone https://github.com/yourusername/PushUpRecognition.git
-    cd PushUpRecognition
-    ```
+
+   ```sh
+   git clone https://github.com/nguyenthanhbinh0411/BTL_AI-IoT-Nhom8.git
+   cd BTL_AI-IoT-Nhom8
+   ```
 
 2. **Cài đặt các gói Python cần thiết:**
-    ```sh
-    pip install -r requirements.txt
-    ```
+
+   ```sh
+   pip install -r requirements.txt
+   ```
 
 3. **Cài đặt MySQL:**
-    - Tải và cài đặt MySQL từ [MySQL Downloads](https://dev.mysql.com/downloads/installer/).
-    - Tạo một người dùng và cơ sở dữ liệu MySQL cho dự án.
+   - Tải và cài đặt MySQL từ [MySQL Downloads](https://dev.mysql.com/downloads/installer/).
+   - Tạo một người dùng và cơ sở dữ liệu MySQL cho dự án.
 
 ## Thiết Lập Cơ Sở Dữ Liệu
 
 1. **Tạo và thiết lập cơ sở dữ liệu:**
-    - Mở file `database_setup.sql` và chỉnh sửa tên người dùng và mật khẩu MySQL nếu cần.
-    - Chạy script SQL để tạo cơ sở dữ liệu và các bảng:
-    ```sh
-    mysql -u root -p < database_setup.sql
-    ```
+   - Mở file `database_setup.sql` và chỉnh sửa tên người dùng và mật khẩu MySQL nếu cần.
+   - Chạy script SQL để tạo cơ sở dữ liệu và các bảng:
+   ```sh
+   mysql -u root -p < database_setup.sql
+   ```
 
 ## Chạy Ứng Dụng
 
 1. **Khởi động ứng dụng Flask:**
-    ```sh
-    python video.py
-    ```
+
+   ```sh
+   python video.py
+   ```
 
 2. **Truy cập giao diện web:**
-    - Mở trình duyệt web và truy cập `http://localhost:5000`.
+   - Mở trình duyệt web và truy cập `http://localhost:5000`.
 
 ## Sử Dụng
 
@@ -71,29 +78,60 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 ### Huấn Luyện Mô Hình
 
 1. **Huấn luyện mô hình nhận diện chống đẩy:**
-    - Mô hình được huấn luyện bằng script `Train_Pushup/train.py`.
-    - Chỉnh sửa script nếu cần và chạy nó:
-    ```sh
-    python Train_Pushup/train.py
-    ```
+
+   - Mô hình được huấn luyện bằng script `Train_Pushup/train.py`.
+   - Chỉnh sửa script nếu cần và chạy nó:
+
+   ```sh
+   python Train_Pushup/train.py
+   ```
 
 2. **Huấn luyện mô hình nhận diện khuôn mặt:**
-    - Mô hình được huấn luyện bằng script `Train_FaceRecognition/train_model.py`.
-    - Chỉnh sửa script nếu cần và chạy nó:
-    ```sh
-    python Train_FaceRecognition/train_model.py
-    ```
+   - Mô hình được huấn luyện bằng script `Train_FaceRecognition/train_model.py`.
+   - Chỉnh sửa script nếu cần và chạy nó:
+   ```sh
+   python Train_FaceRecognition/train_model.py
+   ```
 
 ### Thu Thập Dữ Liệu Khuôn Mặt
 
 1. **Thu thập dữ liệu khuôn mặt cho người dùng mới:**
-    - Sử dụng giao diện web để thu thập dữ liệu khuôn mặt.
-    - Hoặc chạy script `Train_FaceRecognition/collect_face_data.py`:
-    ```sh
-    python Train_FaceRecognition/collect_face_data.py
-    ```
+   - Sử dụng giao diện web để thu thập dữ liệu khuôn mặt.
+   - Hoặc chạy script `Train_FaceRecognition/collect_face_data.py`:
+   ```sh
+   python Train_FaceRecognition/collect_face_data.py
+   ```
 
 ### Xem Thành Tích và Lịch Sử
 
 - Sử dụng giao diện web để xem thành tích và lịch sử của người dùng.
 - Hoặc sử dụng các API để lấy dữ liệu dưới dạng JSON.
+
+## Giới Thiệu Các Chức Năng
+
+### 🎥 Giám Sát Thời Gian Thực
+
+- Hiển thị luồng video thời gian thực từ camera.
+- Nhận diện người dùng và đếm số lần chống đẩy.
+
+### 🗂️ Quản Lý Dữ Liệu
+
+- Lưu trữ thông tin người dùng và lịch sử chống đẩy vào cơ sở dữ liệu.
+- Cung cấp API để truy xuất dữ liệu.
+
+### 🤖 Huấn Luyện Mô Hình
+
+- Huấn luyện mô hình nhận diện chống đẩy và khuôn mặt.
+- Thu thập dữ liệu khuôn mặt cho người dùng mới.
+
+### 📊 Xem Thành Tích và Lịch Sử
+
+- Hiển thị thành tích và lịch sử chống đẩy của người dùng qua giao diện web bằng API.
+
+## Sơ Đồ Hệ Thống
+
+![Sơ Đồ Hệ Thống](path/to/system-diagram.png)
+
+## Poster
+
+![Poster](path/to/poster.png)
