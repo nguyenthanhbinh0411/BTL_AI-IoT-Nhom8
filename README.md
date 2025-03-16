@@ -4,6 +4,7 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 
 ## Mục Lục
 
+- [Sơ Đồ Hệ Thống](#sơ-đồ-hệ-thống)
 - [Cài Đặt](#cài-đặt)
 - [Thiết Lập Cơ Sở Dữ Liệu](#thiết-lập-cơ-sở-dữ-liệu)
 - [Chạy Ứng Dụng](#chạy-ứng-dụng)
@@ -13,8 +14,11 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 - [Thu Thập Dữ Liệu Khuôn Mặt](#thu-thập-dữ-liệu-khuôn-mặt)
 - [Xem Thành Tích và Lịch Sử](#xem-thành-tích-và-lịch-sử)
 - [Giới Thiệu Các Chức Năng](#giới-thiệu-các-chức-năng)
-- [Sơ Đồ Hệ Thống](#sơ-đồ-hệ-thống)
 - [Poster](#poster)
+
+## Sơ Đồ Hệ Thống
+
+![image](https://github.com/user-attachments/assets/bef6feb0-ed91-4cfc-8ddd-57ea1e9e8614)
 
 ## Cài Đặt
 
@@ -127,10 +131,6 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 ### 📊 Xem Thành Tích và Lịch Sử
 
 - Hiển thị thành tích và lịch sử chống đẩy của người dùng qua giao diện web bằng API.
-
-## Sơ Đồ Hệ Thống
-
-![Sơ Đồ Hệ Thống](path/to/system-diagram.png)
 
 ## Poster
 
