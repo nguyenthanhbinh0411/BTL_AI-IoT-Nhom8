@@ -134,4 +134,5 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 
 ## Poster
 
-![Poster](path/to/poster.png)
+![Nhom8_AI IoT](https://github.com/user-attachments/assets/1795a590-381a-48f6-83eb-4aef2516d5c1)
+
