@@ -4,8 +4,10 @@
 <div align="center">
 
 <p align="center">
-  <img src="images/logoDaiNam.png" alt="DaiNam University Logo" width="200"/>
-  <img src="images/LogoAIoTLab.png" alt="AIoTLab Logo" width="170"/>
+  <img src="![image](https://github.com/user-attachments/assets/3ea1d9d8-9b86-4b27-85b2-886b70caff24)
+" alt="DaiNam University Logo" width="200"/>
+  <img src="![image](https://github.com/user-attachments/assets/d057713b-9362-4a1e-9423-89691f3ab44d)
+" alt="AIoTLab Logo" width="170"/>
 </p>
 
 [![Made by AIoTLab](https://img.shields.io/badge/Made%20by%20AIoTLab-blue?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
