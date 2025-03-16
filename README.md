@@ -3,10 +3,9 @@
 
 <div align="center">
 
-<p align="center">
 ![image](https://github.com/user-attachments/assets/a7ad8c17-5216-4f9c-9bc5-715bfdc7283a)
 ![image](https://github.com/user-attachments/assets/d057713b-9362-4a1e-9423-89691f3ab44d)
-</p>
+
 
 [![Made by AIoTLab](https://img.shields.io/badge/Made%20by%20AIoTLab-blue?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
 [![Fit DNU](https://img.shields.io/badge/Fit%20DNU-green?style=for-the-badge)](https://fitdnu.net/)
