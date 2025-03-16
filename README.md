@@ -35,7 +35,13 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
    pip install -r requirements.txt
    ```
 
-3. **Cài đặt MySQL:**
+3. **Cài đặt tất cả các thư viện liên quan (nếu cần):**
+
+   ```sh
+   pip install Flask opencv-python numpy pandas mysql-connector-python scikit-learn matplotlib dlib
+   ```
+
+4. **Cài đặt MySQL:**
    - Tải và cài đặt MySQL từ [MySQL Downloads](https://dev.mysql.com/downloads/installer/).
    - Tạo một người dùng và cơ sở dữ liệu MySQL cho dự án.
 
@@ -135,4 +141,3 @@ Dự án này là một hệ thống nhận diện chống đẩy sử dụng th
 ## Poster
 
 ![Nhom8_AI IoT](https://github.com/user-attachments/assets/1795a590-381a-48f6-83eb-4aef2516d5c1)
-

@@ -1,0 +1,8 @@
+Flask==2.2.5
+opencv-python==4.8.0.76
+numpy==1.23.5
+pandas==1.5.3
+mysql-connector-python==8.0.33
+scikit-learn==1.2.2
+matplotlib==3.7.1
+dlib==19.24.0
